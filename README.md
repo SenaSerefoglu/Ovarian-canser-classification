@@ -1,6 +1,6 @@
 # Ovarian-canser-classification
 
-A deep learning-based project aimed at classifying ovarian cancer subtypes using advanced image processing techniques and convolutional neural networks (CNN).
+A deep learning-based project aimed at classifying ovarian cancer subtypes using advanced image processing techniques, convolutional neural networks (CNN), and TensorRT optimization.
 
 ## Overview
 
@@ -12,15 +12,16 @@ Ovarian cancer is one of the deadliest gynecological cancers, often diagnosed in
 - **Low-Grade Serous Carcinoma**
 - **Mucinous Carcinoma**
 
-This study utilizes convolutional neural networks (CNN) and architectures such as ResNet50, VGG16, and VGG19 to classify the cancer subtypes effectively.
+This study utilizes convolutional neural networks (CNN) and architectures such as ResNet50, VGG16, and VGG19 to classify the cancer subtypes effectively. Additionally, TensorRT optimization has been implemented to enhance model inference speed, making it suitable for real-time applications.
 
 ## Features
 
-- **Data Preprocessing**: Includes image resizing, normalization, and augmentation techniques (e.g., rotation, flipping, zooming).
-- **Deep Learning Models**: Implements CNN-based architectures (e.g., ResNet50, VGG16, VGG19) for classification.
-- **Model Optimization**: Utilizes techniques like class weights, dropout, early stopping, and learning rate scheduling.
+- **Data Preprocessing**: Includes image resizing, normalization, augmentation (rotation, flipping, zooming), noise reduction, contrast, and brightness adjustments.
+- **Deep Learning Models**: Implements custom CNN architectures, ResNet50, VGG16, and VGG19 for classification.
+- **Model Optimization**: Utilizes techniques like L1 regularization, class balancing, dropout, early stopping, and learning rate scheduling for efficient training.
+- **TensorRT Optimization**: Optimizes the ResNet50 model using Torch-TensorRT with FP16 precision for faster inference.
 - **Performance Metrics**: Evaluates models using accuracy, precision, recall, and F1-score.
-- **Visualization**: Displays training and validation metrics for performance analysis.
+- **Visualization**: Displays training/validation accuracy and loss for performance analysis.
 
 ## Dataset
 
@@ -30,34 +31,33 @@ The dataset contains over 2,900 pathological images for each cancer subtype, sou
 - **Normalization**: Pixel values are normalized to the range [0, 1].
 - **Augmentation**: Techniques like rotation, flipping, and zooming are applied to reduce overfitting.
 
-## Models
+## Models and Techniques
 
-Several models were implemented and compared:
+Several models and techniques are implemented in this project:
 
-1. **Custom CNN**: A custom convolutional neural network with multiple convolutional, pooling, and fully connected layers.
-2. **ResNet50**: Achieved the best performance with higher accuracy and faster training time.
-3. **VGG16**: High training time with less satisfactory results.
-4. **VGG19**: Stable learning but lower accuracy compared to ResNet50.
+1. **Custom CNN**:  
+   - Multiple convolutional layers with 3x3 filters, max-pooling, dropout, and batch normalization layers to prevent overfitting.
+   - Fully connected layers for classification.
+   
+2. **Pretrained Architectures**:  
+   - **ResNet50**: Fine-tuned for ovarian cancer subtype classification, achieving a high accuracy of **96%** with Keras and TensorFlow.  
+   - **VGG16 and VGG19**: Customized versions of VGG models with additional dropout and batch normalization layers.
 
-### Model Architecture Highlights
-
-- **Custom CNN**:
-  - Multiple convolutional layers with 3x3 filters.
-  - Max pooling, dropout, and batch normalization layers to prevent overfitting.
-  - Fully connected layers for classification.
-
-- **Pretrained Architectures**:
-  - Used ResNet50, VGG16, and VGG19 pretrained on ImageNet for feature extraction.
-  - Fine-tuned for the ovarian cancer subtype classification task.
+3. **TensorRT Optimization**:  
+   - Optimized the ResNet50 model with Torch-TensorRT for FP16 precision, significantly reducing inference time for real-time applications.
 
 ### Model Evaluation
 
-- **Best Performing Model**: ResNet50
-  - High accuracy with stable and consistent results.
-  - Faster training time compared to VGG architectures.
-- **VGG16 and VGG19**:
-  - Longer training times and lower accuracy.
-  - Less efficient compared to ResNet50.
+- **ResNet50**: Achieved the highest accuracy (**96%**) and fastest training time. Optimized with TensorRT for enhanced inference speed.
+- **VGG16 and VGG19**: Achieved moderate accuracies but required longer training times.
+- **Custom CNN**: Provided flexibility with decent performance but did not outperform ResNet50.
+
+### Techniques Used
+
+- L1 regularization for weight penalties.
+- Class balancing to handle imbalanced datasets.
+- Early stopping to prevent overfitting.
+- Learning rate scheduling to improve training efficiency.
 
 ## Methodology
 
@@ -75,7 +75,11 @@ Several models were implemented and compared:
    - Metrics: Accuracy, precision, recall, F1-score.
    - Training and validation results were visualized for analysis.
 
-4. **Comparison**:
+4. **Optimizing with TensorRT**:
+   - Model is optimized with different batch_sizes.
+   - Inference times were compared with different batch sizes and with both non-optimized and optimized models.
+
+5. **Comparison**:
    - ResNet50 outperformed other architectures in accuracy, training time, and consistency.
 
 ## Results
